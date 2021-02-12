@@ -15,6 +15,7 @@ namespace Clean.Api.LogicProcessors.Interfaces
         User Get(int id);
         User Get(string username);
         Task<User> Create(CreateUserRequest model);
+        Task<User> Create(RegisterRequest model);
         Task<User> Update(int id, UpdateUserRequest model);
         Task Delete(int id);
         Task ChangePassword(int id, ChangeUserPasswordRequest model);

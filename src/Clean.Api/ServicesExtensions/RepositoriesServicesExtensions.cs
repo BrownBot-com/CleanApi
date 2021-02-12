@@ -16,7 +16,7 @@ namespace Clean.Api.ServicesExtensions
     {
         public static void AddRepositories(this IServiceCollection services, IConfiguration configuration)
         {
-            var connectString = configuration.GetConnectionString("toptal-project-db");
+            var connectString = configuration.GetConnectionString("clean-api-db");
             services.AddDbContext<CleanDbContext>(options => options.UseSqlServer(connectString));
 
             services.AddScoped<IRepository<User>>(x => new EFRepository<User>(x.GetRequiredService<CleanDbContext>()));

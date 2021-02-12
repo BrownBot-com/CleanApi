@@ -1,3 +1,4 @@
+using Clean.Api.Filters;
 using Clean.Api.Mapping;
 using Clean.Api.ServicesExtensions;
 using Microsoft.AspNetCore.Builder;
@@ -35,7 +36,7 @@ namespace Clean.Api
             services.AddSecurityHelpers();
             services.AddLogicProcessors();
 
-            services.AddControllers();
+            services.AddControllers(options => { options.Filters.Add(new ApiExceptionFilter()); });
 
             services.AddSwaggerGen(c =>
             {

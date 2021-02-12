@@ -79,6 +79,26 @@ namespace Clean.Api.LogicProcessors
             return user;
         }
 
+        public async Task<User> Create(RegisterRequest request)
+        {
+            var username = request.Username.Trim().ToLower();
+
+            if (_usersRepo.Query().Any(u => u.Username == username)) throw new BadRequestException("Username is already in use");
+
+            var user = new User
+            {
+                Username = request.Username.Trim(),
+                PasswordHash = EncryptionHelper.HashPassword(request.Password.Trim()),
+                FirstName = request.FirstName.Trim(),
+                LastName = request.LastName.Trim(),
+            };
+
+            _usersRepo.Add(user);
+            await _usersRepo.SaveAsync();
+
+            return user;
+        }
+
         public async Task<User> Update(int id, UpdateUserRequest model)
         {
             var user = EnsureAccessAndLoadUser(id);

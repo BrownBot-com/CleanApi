@@ -17,17 +17,17 @@ namespace Clean.Api.LogicProcessors
 {
     public class AuthenticationProcessor : IAuthenticationProcessor
     {
-        public AuthenticationProcessor(ITokenGenerator tokenBuilder, IUsersProcessor usersQueryProcessor, ISecurityContext context, IMapper mapper)
+        public AuthenticationProcessor(ITokenGenerator tokenBuilder, IUsersProcessor usersProcessor, ISecurityContext context, IMapper mapper)
         {
             _random = new Random();
             _tokenBuilder = tokenBuilder;
-            _usersQueryProcessor = usersQueryProcessor;
+            _usersProcessor = usersProcessor;
             _context = context;
             _mapper = mapper;
         }
 
         private readonly ITokenGenerator _tokenBuilder;
-        private readonly IUsersProcessor _usersQueryProcessor;
+        private readonly IUsersProcessor _usersProcessor;
         private readonly ISecurityContext _context;
         private readonly IMapper _mapper;
         private Random _random;
@@ -36,7 +36,7 @@ namespace Clean.Api.LogicProcessors
 
         public TokenResponse Authenticate(string username, string password)
         {
-            var user = _usersQueryProcessor.Get(username);
+            var user = _usersProcessor.Get(username);
 
             if (user == null) throw new BadRequestException("Username or password incorrect");
 
@@ -56,23 +56,14 @@ namespace Clean.Api.LogicProcessors
             };
         }
 
-        public async Task<User> Register(RegisterRequest model)
+        public async Task<User> Register(RegisterRequest request)
         {
-            var requestModel = new CreateUserRequest()
-            {
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                Password = model.Password,
-                Username = model.Username
-            };
-
-            var user = await _usersQueryProcessor.Create(requestModel);
-            return user;
+            return await _usersProcessor.Create(request);
         }
 
         public async Task ChangePassword(ChangeUserPasswordRequest request)
         {
-            await _usersQueryProcessor.ChangePassword(_context.CurrentUser.Id, request);
+            await _usersProcessor.ChangePassword(_context.CurrentUser.Id, request);
         }
     }
 }
