@@ -5,10 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Clean.Api.DataAccess.Models\Clean.Api.DataAccess.Models.csproj" />
+    <ProjectReference Include="..\Clean.Api.DataAccess\Clean.Api.DataAccess.csproj" />
     <ProjectReference Include="..\Clean.Api.Mapping\Clean.Api.Mapping.csproj" />
     <ProjectReference Include="..\Clean.Api.Common\Clean.Api.Common.csproj" />
     <ProjectReference Include="..\Clean.Api.Contracts\Clean.Api.Contracts.csproj" />
-    <ProjectReference Include="..\Clean.Api.DataAccess\Clean.Api.DataAccess.csproj" />
     <ProjectReference Include="..\Clean.Api.Security\Clean.Api.Security.csproj" />
   </ItemGroup>
 

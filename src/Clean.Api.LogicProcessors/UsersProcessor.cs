@@ -1,17 +1,17 @@
 ﻿using Clean.Api.Common.Exceptions;
 using Clean.Api.Contracts.Authentication;
 using Clean.Api.Contracts.Users;
-using Clean.Api.DataAccess.Interfaces;
+using Clean.Api.DataAccess.Models.Interfaces;
 using Clean.Api.DataAccess.Models;
 using Clean.Api.LogicProcessors.Interfaces;
 using Clean.Api.Security;
 using Clean.Api.Security.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Clean.Api.LogicProcessors
 {

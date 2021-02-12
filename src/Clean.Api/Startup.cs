@@ -32,6 +32,7 @@ namespace Clean.Api
             services.AddJwtAuth();
             services.AddAutoMapper(typeof(BaseProfile));
             services.AddRepositories(Configuration);
+            services.AddSecurityHelpers();
             services.AddLogicProcessors();
 
             services.AddControllers();

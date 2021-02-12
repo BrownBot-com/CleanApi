@@ -8,6 +8,10 @@
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.3" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.3" NoWarn="NU1605" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.3" />
     <PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.0.2" />
@@ -16,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Clean.Api.Common\Clean.Api.Common.csproj" />
     <ProjectReference Include="..\Clean.Api.Contracts\Clean.Api.Contracts.csproj" />
+    <ProjectReference Include="..\Clean.Api.DataAccess.Models\Clean.Api.DataAccess.Models.csproj" />
     <ProjectReference Include="..\Clean.Api.DataAccess\Clean.Api.DataAccess.csproj" />
     <ProjectReference Include="..\Clean.Api.LogicProcessors\Clean.Api.LogicProcessors.csproj" />
     <ProjectReference Include="..\Clean.Api.Mapping\Clean.Api.Mapping.csproj" />

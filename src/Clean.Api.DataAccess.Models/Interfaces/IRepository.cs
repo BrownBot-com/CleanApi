@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 
-namespace Clean.Api.DataAccess.Interfaces
+namespace Clean.Api.DataAccess.Models.Interfaces
 {
     public interface IRepository<T> : IDisposable where T : class
     {

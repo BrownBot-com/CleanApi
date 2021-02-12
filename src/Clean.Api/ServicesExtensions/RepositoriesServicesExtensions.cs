@@ -1,6 +1,6 @@
 ﻿using Clean.Api.Data.Access;
 using Clean.Api.DataAccess.EF;
-using Clean.Api.DataAccess.Interfaces;
+using Clean.Api.DataAccess.Models.Interfaces;
 using Clean.Api.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

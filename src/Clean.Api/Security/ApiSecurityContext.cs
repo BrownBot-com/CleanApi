@@ -1,4 +1,5 @@
 ﻿using Clean.Api.DataAccess.Models;
+using Clean.Api.DataAccess.Models.Interfaces;
 using Clean.Api.LogicProcessors.Interfaces;
 using Clean.Api.Security.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -11,14 +12,16 @@ namespace Clean.Api.Security
 {
     public class ApiSecurityContext : ISecurityContext
     {
-        public ApiSecurityContext(IHttpContextAccessor contextAccessor, IUsersProcessor usersProcessor)
+        public ApiSecurityContext(IHttpContextAccessor contextAccessor, IRepository<User> usersRepository)
         {
             _contextAccessor = contextAccessor;
-            _usersProcessor = usersProcessor;
+            _usersRepository = usersRepository;
         }
 
         private readonly IHttpContextAccessor _contextAccessor;
-        private readonly IUsersProcessor _usersProcessor;
+
+        // We have to use a Repository rather than the UserProcessor to avoid a circular reference
+        private readonly IRepository<User> _usersRepository;
         private User _cachedUser;
 
         public User CurrentUser
@@ -33,7 +36,7 @@ namespace Clean.Api.Security
                 }
 
                 var username = _contextAccessor.HttpContext.User.Identity.Name;
-                _cachedUser = _usersProcessor.Get(username);
+                _cachedUser = _usersRepository.Query().FirstOrDefault(x => x.Username == username);
 
                 if (_cachedUser == null) throw new UnauthorizedAccessException("User is not found");
 

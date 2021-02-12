@@ -1,4 +1,4 @@
-﻿using Clean.Api.DataAccess.Interfaces;
+﻿using Clean.Api.DataAccess.Models.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
