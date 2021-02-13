@@ -16,7 +16,9 @@ namespace Clean.Api.Security
 
         public static SigningCredentials SigningCredentials { get; } = new SigningCredentials(Key, SecurityAlgorithms.RsaSha256Signature);
 
-        public static TimeSpan ExpiresSpan { get; } = TimeSpan.FromMinutes(30);
+        public static TimeSpan TokenExpiresSpan { get; } = TimeSpan.FromMinutes(10);
+        
+        public static TimeSpan RefreshTokenExpiresSpan { get; } = TimeSpan.FromDays(14);
 
         public static string TokenType { get; } = "Bearer";
 

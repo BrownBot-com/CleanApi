@@ -11,7 +11,9 @@ namespace Clean.Api.LogicProcessors.Interfaces
     public interface IAuthenticationProcessor
     {
         TokenResponse Authenticate(string username, string password);
+        Task<TokenResponse> RefreshToken(string refreshToken);
         Task<User> Register(RegisterRequest model);
         Task ChangePassword(ChangeUserPasswordRequest requestModel);
+        void InvalidateRefreshToken(string userName);
     }
 }

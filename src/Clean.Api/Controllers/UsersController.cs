@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Clean.Api.Contracts.Users;
 using Clean.Api.LogicProcessors.Interfaces;
+using Clean.Api.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;

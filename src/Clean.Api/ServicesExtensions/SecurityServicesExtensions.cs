@@ -14,7 +14,7 @@ namespace Clean.Api.ServicesExtensions
         public static void AddSecurityHelpers(this IServiceCollection services)
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddScoped<ITokenGenerator, TokenGenerator>();
+            services.AddSingleton<ITokenGenerator, TokenGenerator>();
             services.AddScoped<ISecurityContext, ApiSecurityContext>();
         }
     }

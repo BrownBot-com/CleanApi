@@ -17,18 +17,18 @@ namespace Clean.Api.LogicProcessors
 {
     public class AuthenticationProcessor : IAuthenticationProcessor
     {
-        public AuthenticationProcessor(ITokenGenerator tokenBuilder, IUsersProcessor usersProcessor, ISecurityContext context, IMapper mapper)
+        public AuthenticationProcessor(ITokenGenerator tokenBuilder, IUsersProcessor usersProcessor, ISecurityContext securityContext, IMapper mapper)
         {
             _random = new Random();
-            _tokenBuilder = tokenBuilder;
+            _tokenGenerator = tokenBuilder;
             _usersProcessor = usersProcessor;
-            _context = context;
+            _securityContext = securityContext;
             _mapper = mapper;
         }
 
-        private readonly ITokenGenerator _tokenBuilder;
+        private readonly ITokenGenerator _tokenGenerator;
         private readonly IUsersProcessor _usersProcessor;
-        private readonly ISecurityContext _context;
+        private readonly ISecurityContext _securityContext;
         private readonly IMapper _mapper;
         private Random _random;
 
@@ -36,7 +36,7 @@ namespace Clean.Api.LogicProcessors
 
         public TokenResponse Authenticate(string username, string password)
         {
-            var user = _usersProcessor.Get(username);
+            var user = _usersProcessor.Get(username, true);   
 
             if (user == null) throw new BadRequestException("Username or password incorrect");
 
@@ -45,13 +45,36 @@ namespace Clean.Api.LogicProcessors
                 throw new BadRequestException("Username or password incorrect");
             }
 
-            var expiresIn = DateTime.Now + TokenAuthOptions.ExpiresSpan;
-            var token = _tokenBuilder.Build(user.Username, user.Roles.Select(x => x.Role.Name).ToArray(), expiresIn);
+            var tokenExpires = DateTime.Now.Add(TokenAuthOptions.TokenExpiresSpan);
+            var refreshTokenExpires = DateTime.Now.Add(TokenAuthOptions.RefreshTokenExpiresSpan);
+            var token = _tokenGenerator.BuildToken(user.Username, user.Roles.Select(x => x.Role.Name).ToArray(), tokenExpires);
 
             return new TokenResponse
             {
-                Expires = expiresIn,
+                TokenExpires = tokenExpires.ToUniversalTime(),
                 Token = token,
+                RefreshTokenExpires = refreshTokenExpires.ToUniversalTime(),
+                RefreshToken = _tokenGenerator.BuildRefreshToken(user.Username, refreshTokenExpires),
+                User = _mapper.Map<UserResponse>(user)
+            };
+        }
+
+        public async Task<TokenResponse> RefreshToken(string refreshToken)
+        {
+            //var user = _securityContext.CurrentUser;
+            var accessToken = await _securityContext.GetCurrentUserToken();
+            var tokenExpires = DateTime.Now + TokenAuthOptions.TokenExpiresSpan;
+            var refreshTokenExpires = DateTime.Now.Add(TokenAuthOptions.RefreshTokenExpiresSpan);
+            //user.Roles.Select(r => r.Role.Name).ToArray()
+            var (token, username) = _tokenGenerator.Refresh(refreshToken, accessToken, tokenExpires);
+            var user = _usersProcessor.Get(username, true);
+
+            return new TokenResponse
+            {
+                TokenExpires = tokenExpires.ToUniversalTime(),
+                Token = token,
+                RefreshTokenExpires = refreshTokenExpires.ToUniversalTime(),
+                RefreshToken = _tokenGenerator.BuildRefreshToken(username, refreshTokenExpires),
                 User = _mapper.Map<UserResponse>(user)
             };
         }
@@ -63,7 +86,12 @@ namespace Clean.Api.LogicProcessors
 
         public async Task ChangePassword(ChangeUserPasswordRequest request)
         {
-            await _usersProcessor.ChangePassword(_context.CurrentUser.Id, request);
+            await _usersProcessor.ChangePassword(_securityContext.CurrentUser.Id, request);
+        }
+
+        public void InvalidateRefreshToken(string userName)
+        {
+            _tokenGenerator.RemoveRefreshTokenByUserName(userName);
         }
     }
 }

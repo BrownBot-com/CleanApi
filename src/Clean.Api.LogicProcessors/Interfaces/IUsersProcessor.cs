@@ -13,7 +13,7 @@ namespace Clean.Api.LogicProcessors.Interfaces
     {
         IQueryable<User> Query { get; }
         User Get(int id);
-        User Get(string username);
+        User Get(string username, bool bypassSecurity);
         Task<User> Create(CreateUserRequest model);
         Task<User> Create(RegisterRequest model);
         Task<User> Update(int id, UpdateUserRequest model);

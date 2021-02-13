@@ -14,20 +14,21 @@ namespace Clean.Api.ServicesExtensions
     {
         public static void AddJwtAuth(this IServiceCollection services)
         {
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, (o) =>
-            {
-                o.TokenValidationParameters = new TokenValidationParameters()
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, (o) =>
                 {
-                    IssuerSigningKey = TokenAuthOptions.Key,
-                    ValidAudience = TokenAuthOptions.Audience,
-                    ValidIssuer = TokenAuthOptions.Issuer,
-                    ValidateIssuerSigningKey = true,
-                    ValidateLifetime = true,
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ClockSkew = TimeSpan.FromMinutes(0)
-                };
-            });
+                    o.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        IssuerSigningKey = TokenAuthOptions.Key,
+                        ValidAudience = TokenAuthOptions.Audience,
+                        ValidIssuer = TokenAuthOptions.Issuer,
+                        ValidateIssuerSigningKey = true,
+                        ValidateLifetime = true,
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ClockSkew = TimeSpan.FromMinutes(0)
+                    };
+                });
 
             services.AddAuthorization(auth =>
             {

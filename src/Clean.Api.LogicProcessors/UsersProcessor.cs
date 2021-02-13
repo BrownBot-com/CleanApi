@@ -30,10 +30,20 @@ namespace Clean.Api.LogicProcessors
         {
             get
             {
-                return _usersRepo.Query()
-                            .Where(x => !x.IsDeleted)
-                                .Include(x => x.Roles)
-                                    .ThenInclude(x => x.Role);
+                var baseQuery = _usersRepo.Query();
+                
+                if (_securityContext.IsUserManager)
+                {
+                    baseQuery = baseQuery.Where(x => !x.IsDeleted);
+                }
+                else
+                {
+                    baseQuery = baseQuery.Where(u => u.Id == _securityContext.CurrentUser.Id);
+                }
+
+                return baseQuery
+                            .Include(x => x.Roles)
+                                .ThenInclude(x => x.Role);
             }
         }
 
@@ -48,9 +58,21 @@ namespace Clean.Api.LogicProcessors
             return user;
         }
 
-        public User Get(string username)
+        public User Get(string username, bool bypassSecurity = false)
         {
-            var user = _filteredQuery.FirstOrDefault(x => x.Username == username);
+            User user = null;
+
+            if (bypassSecurity)
+            {
+                user = _usersRepo.Query()
+                                    .Include(x => x.Roles)
+                                        .ThenInclude(x => x.Role)
+                                            .FirstOrDefault(x => x.Username == username);
+            }
+            else
+            {
+                user = Query.FirstOrDefault(x => x.Username == username);
+            }
 
             if (user == null) throw new NotFoundException("User not found");
 
