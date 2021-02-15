@@ -4,11 +4,11 @@ using System.Text;
 
 namespace Clean.Api.Contracts.Common
 {
-    public class PagedResult<T>
+    public class PagedResult
     {
-        public T[] Data { get; set; }
-        public int Page { get; set; }
-        public int PageSize { get; set; }
-        public int TotalPages { get; set; }
+        public object[] Data { get; set; }
+        public uint Page { get; set; }
+        public uint PageSize { get; set; }
+        public uint TotalPages { get; set; }
     }
 }

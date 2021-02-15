@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Clean.Api.Contracts.Users;
+using Clean.Api.DataAccess.Models;
+using Clean.Api.Filters;
 using Clean.Api.LogicProcessors.Interfaces;
 using Clean.Api.Security;
 using Microsoft.AspNetCore.Authorization;
@@ -29,10 +32,11 @@ namespace Clean.Api.Controllers
 
         // GET: api/<UsersController>
         [HttpGet]
-        public ActionResult<IEnumerable<UserResponse>> Get()
+        [QueryableList]
+        public IQueryable<UserResponse> Get()
         {
-            var rawResult = _usersProcessor.Query.ToArray();
-            var response = _mapper.Map<UserResponse[]>(rawResult);
+            var rawResult = _usersProcessor.Query;
+            var response = rawResult.ProjectTo<UserResponse>(_mapper.ConfigurationProvider);
             return response;
         }
 
