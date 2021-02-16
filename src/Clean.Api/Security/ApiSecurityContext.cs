@@ -32,10 +32,10 @@ namespace Clean.Api.Security
             {
                 if (_cachedUser != null) return _cachedUser;
 
-                //if (!_contextAccessor.HttpContext.User.Identity.IsAuthenticated)
-                //{
-                //    throw new UnauthorizedAccessException();
-                //}
+                if (!_contextAccessor.HttpContext.User.Identity.IsAuthenticated)
+                {
+                    throw new UnauthorizedAccessException();
+                }
 
                 var username = _contextAccessor.HttpContext.User.Identity.Name;
 

@@ -7,8 +7,6 @@ namespace Clean.Api.Helpers.Queries
 {
     public static class IQueryableExtensions
     {
-
-
         public static IQueryable<T> ApplyQuery<T>(this IQueryable<T> parentQuery, QueryParameters query)
         {
             return ApplyQueryInternal(parentQuery, query);

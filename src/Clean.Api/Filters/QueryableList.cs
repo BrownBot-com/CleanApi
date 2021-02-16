@@ -30,8 +30,7 @@ namespace Clean.Api.Filters
                 queryParams = new QueryParameters(request.Query["filter"], request.Query["sort"], request.Query["pagesize"], request.Query["page"]);
                 try
                 {
-                    //var applyQuery = resultType.GetMethod("ApplyQuery").MakeGenericMethod(result.ElementType);
-                    query = IQueryableExtensions.GetQueryResults(query, queryParams);//.Invoke(null, new[] { query, queryParams });
+                    query = IQueryableExtensions.GetQueryResults(query, queryParams);
                 }
                 catch (FormatException e)
                 {
@@ -43,21 +42,6 @@ namespace Clean.Api.Filters
             var total = queryParams.FilteredCount;
 
             context.Result = GetPagedResult(query, queryParams, total);
-
-            //Type entityType = query.GetType().GenericTypeArguments[0];
-
-            //var commands = context.HttpContext.Request.Query.ContainsKey("commands") ? context.HttpContext.Request.Query["commands"] : new StringValues();
-
-            //var data = QueryableHelper.GetAutoQuery(commands, entityType, query,
-            //    new AutoQueryableProfile { UnselectableProperties = new string[0] });
-
-            //var toArray = typeof(Enumerable).GetMethod("ToArray").MakeGenericMethod(typeof(object));
-
-            //var fetchedData = toArray.Invoke(null, new object[] { data });
-
-            //var total = System.Linq.Queryable.Count(query);
-            //context.Result = new OkObjectResult(new DataResult { Data = fetchedData, Total = total });
-
         }
 
 

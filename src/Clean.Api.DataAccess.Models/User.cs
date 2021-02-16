@@ -28,6 +28,6 @@ namespace Clean.Api.DataAccess.Models
         [Column("UserIsDeleted")]
         public bool IsDeleted { get; set; }
 
-        public virtual List<UserRole> Roles { get; set; }
+        public virtual List<UserRole> Roles { get; set; } = new List<UserRole>();
     }
 }
