@@ -81,7 +81,7 @@ namespace Clean.Api.LogicProcessors
 
         public async Task<User> Create(CreateUserRequest request)
         {
-            var username = request.Username.Trim();
+            var username = request.Username.Trim().ToLower();
 
             if (_usersRepo.Query().Any(u => u.Username == username)) throw new BadRequestException("Username is already in use");
 
