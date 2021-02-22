@@ -1,6 +1,6 @@
 ﻿using Clean.Api.Contracts.Authentication;
 using Clean.Api.Contracts.Users;
-using Clean.Api.DataAccess.Models;
+using Clean.Api.DataAccess.Models.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace Clean.Api.DataAccess.Models
+namespace Clean.Api.DataAccess.Models.Users
 {
     [Table("Roles")]
     public class Role

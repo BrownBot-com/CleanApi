@@ -1,4 +1,5 @@
-﻿using Clean.Api.DataAccess.Models;
+﻿using Clean.Api.DataAccess.Models.Items;
+using Clean.Api.DataAccess.Models.Users;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -15,5 +16,11 @@ namespace Clean.Api.Data.Access
         }
 
         public virtual DbSet<User> Users { get; set; }
+        //public virtual DbSet<UserRole> UserRoles { get; set; }
+        //public virtual DbSet<Role> Roles { get; set; }
+        public virtual DbSet<Item> Items { get; set; }
+        public virtual DbSet<ItemStock> ItemStocks { get; set; }
+
+
     }
 }

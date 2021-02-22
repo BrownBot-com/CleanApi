@@ -1,4 +1,4 @@
-﻿using Clean.Api.DataAccess.Models;
+﻿using Clean.Api.DataAccess.Models.Users;
 using System;
 using System.Collections.Generic;
 using System.Text;

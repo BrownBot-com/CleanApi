@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Clean.Api.DataAccess.Models.Users;
+using Clean.Api.DataAccess.Models.Items;
 
 namespace Clean.Api.ServicesExtensions
 {
@@ -20,6 +22,7 @@ namespace Clean.Api.ServicesExtensions
             services.AddDbContext<CleanDbContext>(options => options.UseSqlServer(connectString));
 
             services.AddScoped<IRepository<User>>(x => new EFRepository<User>(x.GetRequiredService<CleanDbContext>()));
+            services.AddScoped<IRepository<Item>>(x => new EFRepository<Item>(x.GetRequiredService<CleanDbContext>()));
         }
     }
 }

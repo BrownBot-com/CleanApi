@@ -14,6 +14,7 @@ namespace Clean.Api.ServicesExtensions
         {
             services.AddScoped<IAuthenticationProcessor, AuthenticationProcessor>();
             services.AddScoped<IUsersProcessor, UsersProcessor>();
+            services.AddScoped<IItemsProcessor, ItemsProcessor>();
         }
     }
 }

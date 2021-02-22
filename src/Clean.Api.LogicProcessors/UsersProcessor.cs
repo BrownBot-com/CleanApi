@@ -2,7 +2,7 @@
 using Clean.Api.Contracts.Authentication;
 using Clean.Api.Contracts.Users;
 using Clean.Api.DataAccess.Models.Interfaces;
-using Clean.Api.DataAccess.Models;
+using Clean.Api.DataAccess.Models.Users;
 using Clean.Api.LogicProcessors.Interfaces;
 using Clean.Api.Security;
 using Clean.Api.Security.Interfaces;

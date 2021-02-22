@@ -1,7 +1,7 @@
 ﻿using Clean.Api.Common.Exceptions;
 using Clean.Api.Contracts.Authentication;
 using Clean.Api.Contracts.Users;
-using Clean.Api.DataAccess.Models;
+using Clean.Api.DataAccess.Models.Users;
 using Clean.Api.DataAccess.Models.Interfaces;
 using Clean.Api.LogicProcessors;
 using Clean.Api.LogicProcessors.Interfaces;
@@ -22,12 +22,19 @@ namespace Clean.Api.LogicProcessorTests
         {
             _processor = new UsersProcessor(_usersRepository.Object, _securityContext.Object);
             _usersRepository.Setup(u => u.Query()).Returns(() => _users.AsQueryable());
+            _usersRepository.Setup(u => u.Query<Role>()).Returns(() => _roles.AsQueryable());
+            _roles.Add(_adminRole);
+            _roles.Add(_userManagerRole);
         }
 
         private Mock<IRepository<User>> _usersRepository = new Mock<IRepository<User>>();
         private Mock<ISecurityContext> _securityContext = new Mock<ISecurityContext>();
         private Random _random = new Random();
         private List<User> _users = new List<User>();
+        private List<Role> _roles = new List<Role>();
+        private Role _adminRole = new Role() { Name = "Administrator", Authority = 10 };
+        private Role _userManagerRole = new Role() { Name = "UserManager", Authority = 8 };
+
         private IUsersProcessor _processor;
 
         [Fact]
@@ -176,6 +183,139 @@ namespace Clean.Api.LogicProcessorTests
             result.Username.Should().Be(newUserRequest.Username);
             result.LastName.Should().Be(newUserRequest.LastName);
             result.FirstName.Should().Be(newUserRequest.FirstName);
+        }
+
+        [Fact]
+        public async void CreateShouldAddRoles()
+        {
+            var currentUser = new User()
+            {
+                Id = 1,
+                Username = _random.Next().ToString(),
+                FirstName = _random.Next().ToString(),
+                LastName = _random.Next().ToString(),
+            };
+
+            currentUser.Roles.Add(new UserRole()
+            {
+                Role = _adminRole
+            });
+
+            _securityContext.Setup(s => s.IsUserManager).Returns(true);
+            _securityContext.Setup(s => s.CurrentUser).Returns(currentUser);
+
+            var role = new Role() { Name = _random.Next().ToString(), Authority = 1 };
+            _roles.Add(role);
+
+            var newUserRequest = new CreateUserRequest()
+            {
+                Username = _random.Next().ToString(),
+                FirstName = _random.Next().ToString(),
+                LastName = _random.Next().ToString(),
+                Password = _random.Next().ToString(),
+                Roles = new [] { role.Name }
+            };
+
+            var result = await _processor.Create(newUserRequest);
+
+            result.Roles.Should().HaveCount(1);
+            result.Roles.Should().Contain(r => r.Role == role);
+        }
+
+        [Fact]
+        public void CreateShouldThrowExcepionIfAddingRolesOfHigherAuthority()
+        {
+            var currentUser = new User()
+            {
+                Id = 1,
+                Username = _random.Next().ToString(),
+                FirstName = _random.Next().ToString(),
+                LastName = _random.Next().ToString(),
+            };
+
+            currentUser.Roles.Add(new UserRole()
+            {
+                Role = _userManagerRole
+            });
+
+            _securityContext.Setup(s => s.IsUserManager).Returns(true);
+            _securityContext.Setup(s => s.CurrentUser).Returns(currentUser);
+
+            var role = new Role() { Name = _random.Next().ToString(), Authority = 10 };
+            _roles.Add(role);
+
+            var newUserRequest = new CreateUserRequest()
+            {
+                Username = _random.Next().ToString(),
+                FirstName = _random.Next().ToString(),
+                LastName = _random.Next().ToString(),
+                Password = _random.Next().ToString(),
+                Roles = new[] { role.Name }
+            };
+
+            Action create = () => { var r = _processor.Create(newUserRequest).Result; };
+            create.Should().Throw<ForbiddenException>();
+        }
+
+        [Fact]
+        public void CreateShouldThrowExcepionRoleNameDoesntExist()
+        {
+            var currentUser = new User()
+            {
+                Id = 1,
+                Username = _random.Next().ToString(),
+                FirstName = _random.Next().ToString(),
+                LastName = _random.Next().ToString(),
+            };
+
+            currentUser.Roles.Add(new UserRole()
+            {
+                Role = _userManagerRole
+            });
+
+            _securityContext.Setup(s => s.IsUserManager).Returns(true);
+            _securityContext.Setup(s => s.CurrentUser).Returns(currentUser);
+
+
+            var newUserRequest = new CreateUserRequest()
+            {
+                Username = _random.Next().ToString(),
+                FirstName = _random.Next().ToString(),
+                LastName = _random.Next().ToString(),
+                Password = _random.Next().ToString(),
+                Roles = new[] { _random.Next().ToString() }
+            };
+
+            Action create = () => { var r = _processor.Create(newUserRequest).Result; };
+            create.Should().Throw<NotFoundException>();
+        }
+
+        [Fact]
+        public void CreateShouldThrowExcepionIfAddingRoleWithoutUserManagerPermission()
+        {
+            var currentUser = new User()
+            {
+                Id = 1,
+                Username = _random.Next().ToString(),
+                FirstName = _random.Next().ToString(),
+                LastName = _random.Next().ToString(),
+            };
+
+            _securityContext.Setup(s => s.IsUserManager).Returns(false);
+            _securityContext.Setup(s => s.CurrentUser).Returns(currentUser);
+
+
+            var newUserRequest = new CreateUserRequest()
+            {
+                Username = _random.Next().ToString(),
+                FirstName = _random.Next().ToString(),
+                LastName = _random.Next().ToString(),
+                Password = _random.Next().ToString(),
+                Roles = new[] { _random.Next().ToString() }
+            };
+
+            Action create = () => { var r = _processor.Create(newUserRequest).Result; };
+            create.Should().Throw<ForbiddenException>();
         }
 
         [Fact]

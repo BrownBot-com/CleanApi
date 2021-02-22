@@ -1,6 +1,7 @@
 using AutoMapper;
 using Clean.Api.Common.Exceptions;
 using Clean.Api.DataAccess.Models;
+using Clean.Api.DataAccess.Models.Users;
 using Clean.Api.LogicProcessors;
 using Clean.Api.LogicProcessors.Interfaces;
 using Clean.Api.Mapping;

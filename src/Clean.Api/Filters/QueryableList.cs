@@ -41,9 +41,13 @@ namespace Clean.Api.Filters
 
             var total = queryParams.FilteredCount;
 
-            context.Result = GetPagedResult(query, queryParams, total);
+            context.Result = GetPagedResult(GetArray(query), queryParams, total);
         }
 
+        private static T[] GetArray<T>(IEnumerable<T> data)
+        {
+            return data.ToArray();
+        }
 
         private IActionResult GetPagedResult( object[] data, QueryParameters queryParameters, int total)
         {
