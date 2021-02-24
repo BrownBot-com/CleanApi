@@ -29,29 +29,41 @@ namespace Clean.Api.LogicProcessors
 
         public async Task<Item[]> Create(CreateItemRequest[] requests)
         {
-            var result = new List<Item>();
+            var result = new Dictionary<string,Item>();
             foreach (var request in requests)
             {
-                var itemCode = request.FullCode.Trim().ToUpper();
+                var itemCode = request.Code.Trim().ToUpper();
 
-                if (_itemsRepository.Query().Any(u => u.Code == itemCode)) throw new BadRequestException($"Item code [{itemCode}] is already in use");
+                if (result.ContainsKey(itemCode)) continue;
+                //if (_itemsRepository.Query().Any(u => u.Code == itemCode)) throw new BadRequestException($"Item code [{itemCode}] is already in use");
 
                 var item = new Item
                 {
-                    Code = itemCode,
-                    FullCode = request.FullCode,
+                    FullCode = itemCode,
+                    OldCode = request.OldCode.Trim().ToUpper(),
                     Description = ParseFullDescription(request.FullDescription),
                     FullDescription = request.FullDescription,
                     FullType = request.FullType,
-                    SupplierCode = request.SupplierCode
+                    SupplierCode = request.SupplierCode,
+                    BrandCode = request.BrandCode
                 };
 
+                if(itemCode.Length > 20)
+                {
+                    item.Code = itemCode.Substring(0, 20);
+                    item.Errors += $"Code too long [{itemCode.Length}]";
+                }
+                else
+                {
+                    item.Code = itemCode;
+                }
+
                 _itemsRepository.Add(item);
-                result.Add(item);
+                result.Add(item.Code,item);
             }
             await _itemsRepository.SaveAsync();
 
-            return result.ToArray();
+            return result.Values.ToArray();
         }
 
         private string ParseFullDescription(string desc)

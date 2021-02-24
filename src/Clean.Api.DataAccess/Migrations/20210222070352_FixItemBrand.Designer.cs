@@ -4,14 +4,16 @@ using Clean.Api.Data.Access;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Clean.Api.DataAccess.Migrations
 {
     [DbContext(typeof(CleanDbContext))]
-    partial class CleanDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210222070352_FixItemBrand")]
+    partial class FixItemBrand
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,14 +76,6 @@ namespace Clean.Api.DataAccess.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
                         .HasColumnName("ItemDescription");
-
-                    b.Property<string>("Errors")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ItemErrors");
-
-                    b.Property<string>("FullCode")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ItemFullCode");
 
                     b.Property<string>("FullDescription")
                         .HasColumnType("nvarchar(max)")

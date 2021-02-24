@@ -5,10 +5,6 @@ using System.Text;
 
 namespace Clean.Api.Contracts.Items
 {
-    public class CreateItemStocksRequest
-    {
-        CreateItemStockRequest[] Items { get; set; } = new CreateItemStockRequest[0];
-    }
 
     public class CreateItemStockRequest
     {

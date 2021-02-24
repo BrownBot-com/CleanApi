@@ -4,14 +4,16 @@ using Clean.Api.Data.Access;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Clean.Api.DataAccess.Migrations
 {
     [DbContext(typeof(CleanDbContext))]
-    partial class CleanDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210222064724_ItemRemoveFullCode")]
+    partial class ItemRemoveFullCode
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,23 +38,6 @@ namespace Clean.Api.DataAccess.Migrations
                     b.ToTable("Branch");
                 });
 
-            modelBuilder.Entity("Clean.Api.DataAccess.Models.Items.Brand", b =>
-                {
-                    b.Property<string>("Code")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasColumnName("BrandCode");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)")
-                        .HasColumnName("BrandName");
-
-                    b.HasKey("Code");
-
-                    b.ToTable("Brand");
-                });
-
             modelBuilder.Entity("Clean.Api.DataAccess.Models.Items.Item", b =>
                 {
                     b.Property<int>("Id")
@@ -60,10 +45,6 @@ namespace Clean.Api.DataAccess.Migrations
                         .HasColumnType("int")
                         .HasColumnName("ItemId")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("BrandCode")
-                        .HasColumnType("nvarchar(20)")
-                        .HasColumnName("BrandCode");
 
                     b.Property<string>("Code")
                         .HasMaxLength(20)
@@ -74,14 +55,6 @@ namespace Clean.Api.DataAccess.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
                         .HasColumnName("ItemDescription");
-
-                    b.Property<string>("Errors")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ItemErrors");
-
-                    b.Property<string>("FullCode")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ItemFullCode");
 
                     b.Property<string>("FullDescription")
                         .HasColumnType("nvarchar(max)")
@@ -101,8 +74,6 @@ namespace Clean.Api.DataAccess.Migrations
                         .HasColumnName("SupplierCode");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BrandCode");
 
                     b.HasIndex("SupplierCode");
 
@@ -245,15 +216,9 @@ namespace Clean.Api.DataAccess.Migrations
 
             modelBuilder.Entity("Clean.Api.DataAccess.Models.Items.Item", b =>
                 {
-                    b.HasOne("Clean.Api.DataAccess.Models.Items.Brand", "Brand")
-                        .WithMany()
-                        .HasForeignKey("BrandCode");
-
                     b.HasOne("Clean.Api.DataAccess.Models.Items.Supplier", "Supplier")
                         .WithMany()
                         .HasForeignKey("SupplierCode");
-
-                    b.Navigation("Brand");
 
                     b.Navigation("Supplier");
                 });

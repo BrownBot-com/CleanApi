@@ -8,8 +8,8 @@ namespace Clean.Api.Contracts.Items
     {
         public int Id { get; set; }
         public string Code { get; set; }
-
         public string FullCode { get; set; }
+        public string OldCode { get; set; }
 
         public string Description { get; set; }
 
@@ -19,6 +19,9 @@ namespace Clean.Api.Contracts.Items
 
         public string FullType { get; set; }
 
+        public string BrandCode { get; set; }
+
+        public string Errors { get; set; }
         public ItemStockResponse[] Stock { get; set; }
     }
 }

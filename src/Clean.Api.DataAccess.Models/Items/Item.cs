@@ -19,6 +19,9 @@ namespace Clean.Api.DataAccess.Models.Items
         [Column("ItemFullCode")]
         public string FullCode { get; set; }
 
+        [Column("ItemOldCode")]
+        public string OldCode { get; set; }
+
         [Column("ItemDescription")]
         [StringLength(100, ErrorMessage = "The {0} value exceeds {1} characters")]
         public string Description { get; set; }
@@ -30,9 +33,16 @@ namespace Clean.Api.DataAccess.Models.Items
         public string SupplierCode { get; set; }
         public Supplier Supplier { get; set; }
 
+        [Column("BrandCode")]
+        public string BrandCode { get; set; }
+        public Brand Brand { get; set; }
+
         [Column("ItemFullType")]
         [StringLength(50, ErrorMessage = "The {0} value exceeds {1} characters")]
         public string FullType { get; set; }
+
+        [Column("ItemErrors")]
+        public string Errors { get; set; }
 
         public List<ItemStock> Stock { get; set; } = new List<ItemStock>();
     }
