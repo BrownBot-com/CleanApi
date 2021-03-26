@@ -8,13 +8,12 @@ using System.Threading.Tasks;
 
 namespace Clean.Api.LogicProcessors.Interfaces
 {
-    public interface IItemsProcessor
+    public interface IPriceListProcessor
     {
-        IQueryable<Item> Query { get; }
-        Item Get(int id);
-        Item Get(string code);
-        Task<Item[]> Create(CreateItemRequest[] requests);
-        Task<Item> Update(UpdateItemRequest request, int id);
+        IQueryable<PriceList> Query { get; }
+        PriceList Get(int id);
+        Task<PriceList> Create(CreatePriceListRequest request);
+        Task<ItemPrice[]> LinkPriceListItems();
         Task Delete(int id);
     }
 }

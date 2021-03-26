@@ -26,6 +26,7 @@
     <ProjectReference Include="..\Clean.Api.LogicProcessors\Clean.Api.LogicProcessors.csproj" />
     <ProjectReference Include="..\Clean.Api.Mapping\Clean.Api.Mapping.csproj" />
     <ProjectReference Include="..\Clean.Api.Security\Clean.Api.Security.csproj" />
+    <ProjectReference Include="..\Clean.Api.Services\Clean.Api.Services.csproj" />
   </ItemGroup>
 
 </Project>

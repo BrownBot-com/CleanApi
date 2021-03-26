@@ -51,7 +51,7 @@ namespace Clean.Api.Filters
 
         private IActionResult GetPagedResult( object[] data, QueryParameters queryParameters, int total)
         {
-            var pagedResult = new PagedResult()
+            var pagedResult = new PagedResult<object>()
             {
                 Data = data,
                 Page = queryParameters.Page,

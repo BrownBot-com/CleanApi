@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Clean.Api.Contracts.Common
 {
-    public class PagedResult
+    public class PagedResult<T>
     {
-        public object[] Data { get; set; }
+        public T[] Data { get; set; }
         public uint Page { get; set; }
         public uint PageSize { get; set; }
         public uint TotalPages { get; set; }

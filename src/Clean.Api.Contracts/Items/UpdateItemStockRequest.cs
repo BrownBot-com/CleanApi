@@ -4,13 +4,10 @@ using System.Text;
 
 namespace Clean.Api.Contracts.Items
 {
-    public class ItemStockResponse
+    public class UpdateItemStockRequest
     {
-        public int Id { get; set; }
 
         public string BranchCode { get; set; }
-
-        public int ItemId { get; set; }
         
         public string ItemCode { get; set; }
 

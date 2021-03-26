@@ -35,8 +35,12 @@ namespace Clean.Api
             services.AddRepositories(Configuration);
             services.AddSecurityHelpers();
             services.AddLogicProcessors();
-
-            services.AddControllers(options => { options.Filters.Add(new ApiExceptionFilter()); });
+            services.AddServices(Configuration);
+            services.AddControllers(options => { options.Filters.Add(new ApiExceptionFilter()); })
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+                }); ;
 
             services.AddSwaggerGen(c =>
             {

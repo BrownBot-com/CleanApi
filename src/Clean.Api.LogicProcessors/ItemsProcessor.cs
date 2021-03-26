@@ -27,6 +27,20 @@ namespace Clean.Api.LogicProcessors
         public IQueryable<Item> Query => _itemsRepository.Query()
                                             .Include(i => i.Stock);
 
+        public Item Get(int id)
+        {
+            var item = Query.FirstOrDefault(i => i.Id == id);
+            if (item == null) throw new NotFoundException("Item not found");
+            return item;
+        }
+
+        public Item Get(string code)
+        {
+            var item = Query.FirstOrDefault(i => i.Code == code);
+            if (item == null) throw new NotFoundException("Item not found");
+            return item;
+        }
+
         public async Task<Item[]> Create(CreateItemRequest[] requests)
         {
             var result = new Dictionary<string,Item>();
@@ -45,7 +59,11 @@ namespace Clean.Api.LogicProcessors
                     FullDescription = request.FullDescription,
                     FullType = request.FullType,
                     SupplierCode = request.SupplierCode,
-                    BrandCode = request.BrandCode
+                    BrandCode = request.BrandCode,
+                    DiscountGroup = request.DiscountGroup,
+                    PriceListGroup = request.PriceListGroup,
+                    StockGroup = request.StockGroup,
+                    PurchaseQty = request.PurchaseQty
                 };
 
                 if(itemCode.Length > 20)
@@ -66,6 +84,30 @@ namespace Clean.Api.LogicProcessors
             return result.Values.ToArray();
         }
 
+        public async Task<Item> Update(UpdateItemRequest request, int id)
+        {
+            var item = Query.FirstOrDefault(i => i.Id == id);
+
+            if(item == null) throw new NotFoundException("User is not found");
+
+            item.FullCode = request.FullCode;
+            item.FullDescription = request.FullDescription;
+            item.FullType = request.FullType;
+            item.SupplierCode = request.SupplierCode;
+            item.DiscountGroup = request.DiscountGroup;
+            item.PriceListGroup = request.PriceListGroup;
+            item.StockGroup = request.StockGroup;
+            item.PurchaseQty = request.PurchaseQty;
+            item.IsSoldInPacket = request.IsSoldInPacket;
+            await _itemsRepository.SaveAsync();
+
+            return item;
+        }
+        private string CleanItemCode(string code)
+        {
+            return code.Trim().ToUpper().Replace(" ", string.Empty);
+        }
+
         private string ParseFullDescription(string desc)
         {
             var newDescription = desc.Trim();
@@ -76,35 +118,6 @@ namespace Clean.Api.LogicProcessors
             return newDescription;
         }
 
-        public async Task<ItemStock[]> Create(CreateItemStockRequest[] requests)
-        {
-            var result = new List<ItemStock>();
-            Item lookupItem = null;
-            foreach (var request in requests)
-            {
-                var itemCode = request.ItemCode.Trim().ToUpper();
-                if (lookupItem == null || lookupItem.Code != itemCode)
-                {
-                    lookupItem = _itemsRepository.Query().FirstOrDefault(i => i.Code == itemCode);
-                    if (lookupItem == null) throw new NotFoundException($"ItemCode [{itemCode}] not found");
-                }
-                var itemStock = new ItemStock
-                {
-                    BranchCode = request.BranchCode.Trim(),
-                    Current = request.Current,
-                    ItemId = lookupItem.Id,
-                    LastOrdered = request.LastOrdered,
-                    Max = request.Max,
-                    Min = request.Min
-                };
-
-                _itemsRepository.Add(itemStock);
-                result.Add(itemStock);
-            }
-            await _itemsRepository.SaveAsync();
-
-            return result.ToArray();
-        }
 
         public async Task Delete(int id)
         {
@@ -114,18 +127,5 @@ namespace Clean.Api.LogicProcessors
             await _itemsRepository.SaveAsync();
         }
 
-        public Item Get(int id)
-        {
-            var item = Query.FirstOrDefault(i => i.Id == id);
-            if (item == null) throw new NotFoundException("Item not found");
-            return item;
-        }
-
-        public Item Get(string code)
-        {
-            var item = Query.FirstOrDefault(i => i.Code == code);
-            if (item == null) throw new NotFoundException("Item not found");
-            return item;
-        }
     }
 }

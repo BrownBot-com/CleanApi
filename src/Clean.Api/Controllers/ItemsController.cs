@@ -54,19 +54,14 @@ namespace Clean.Api.Controllers
             return response;
         }
 
-        [HttpPost("Stock")]
-        public async Task<ActionResult<ItemStockResponse[]>> PostStock([FromBody] CreateItemStockRequest[] request)
+        // PUT api/<ItemsController>/5
+        [HttpPut("{id}")]
+        public async Task<ActionResult<ItemResponse>> Put(int id, [FromBody] UpdateItemRequest request)
         {
-            var rawResult = await _itemsProcessor.Create(request);
-            var response = _mapper.Map<ItemStockResponse[]>(rawResult);
+            var rawResult = await _itemsProcessor.Update(request, id);
+            var response = _mapper.Map<ItemResponse>(rawResult);
             return response;
         }
-
-        //// PUT api/<ItemsController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
 
         // DELETE api/<ItemsController>/5
         [HttpDelete("{id}")]

@@ -26,5 +26,8 @@ namespace Clean.Api.Contracts.Items
         [Required]
         public int Current { get; set; }
 
+        public int ImportNumber { get; set; }
+
+        public string Bin { get; set; }
     }
 }

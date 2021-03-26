@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Clean.Api.Contracts\Clean.Api.Contracts.csproj" />
     <ProjectReference Include="..\Clean.Api.DataAccess.Models\Clean.Api.DataAccess.Models.csproj" />
+    <ProjectReference Include="..\Clean.Api.Services\Clean.Api.Services.csproj" />
   </ItemGroup>
 
 </Project>

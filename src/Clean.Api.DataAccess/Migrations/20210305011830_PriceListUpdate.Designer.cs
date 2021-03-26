@@ -4,14 +4,16 @@ using Clean.Api.Data.Access;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Clean.Api.DataAccess.Migrations
 {
     [DbContext(typeof(CleanDbContext))]
-    partial class CleanDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210305011830_PriceListUpdate")]
+    partial class PriceListUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -75,15 +77,6 @@ namespace Clean.Api.DataAccess.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasColumnName("ItemDescription");
 
-                    b.Property<string>("DiscountGroup")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasColumnName("ItemDiscountGroup");
-
-                    b.Property<int>("DynamicsBatch")
-                        .HasColumnType("int")
-                        .HasColumnName("ItemDynamicsBatch");
-
                     b.Property<string>("Errors")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("ItemErrors");
@@ -101,27 +94,9 @@ namespace Clean.Api.DataAccess.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("ItemFullType");
 
-                    b.Property<bool>("IsSoldInPacket")
-                        .HasColumnType("bit")
-                        .HasColumnName("ItemSoldInPacket");
-
                     b.Property<string>("OldCode")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("ItemOldCode");
-
-                    b.Property<string>("PriceListGroup")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasColumnName("ItemPriceListGroup");
-
-                    b.Property<int>("PurchaseQty")
-                        .HasColumnType("int")
-                        .HasColumnName("ItemPurchaseQty");
-
-                    b.Property<string>("StockGroup")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasColumnName("ItemStockGroup");
 
                     b.Property<string>("SupplierCode")
                         .HasColumnType("nvarchar(20)")
@@ -189,11 +164,6 @@ namespace Clean.Api.DataAccess.Migrations
                         .HasColumnType("int")
                         .HasColumnName("ItemStockId")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Bin")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasColumnName("ItemStockBin");
 
                     b.Property<string>("BranchCode")
                         .HasColumnType("nvarchar(20)")

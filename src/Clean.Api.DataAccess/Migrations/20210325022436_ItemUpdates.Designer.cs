@@ -4,14 +4,16 @@ using Clean.Api.Data.Access;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Clean.Api.DataAccess.Migrations
 {
     [DbContext(typeof(CleanDbContext))]
-    partial class CleanDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210325022436_ItemUpdates")]
+    partial class ItemUpdates
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,10 +82,6 @@ namespace Clean.Api.DataAccess.Migrations
                         .HasColumnType("nvarchar(20)")
                         .HasColumnName("ItemDiscountGroup");
 
-                    b.Property<int>("DynamicsBatch")
-                        .HasColumnType("int")
-                        .HasColumnName("ItemDynamicsBatch");
-
                     b.Property<string>("Errors")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("ItemErrors");
@@ -100,10 +98,6 @@ namespace Clean.Api.DataAccess.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("ItemFullType");
-
-                    b.Property<bool>("IsSoldInPacket")
-                        .HasColumnType("bit")
-                        .HasColumnName("ItemSoldInPacket");
 
                     b.Property<string>("OldCode")
                         .HasColumnType("nvarchar(max)")
