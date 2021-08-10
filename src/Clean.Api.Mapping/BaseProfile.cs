@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Clean.Api.Contracts.AbnLookup;
+using Clean.Api.Contracts.Brands;
 using Clean.Api.Contracts.Items;
 using Clean.Api.Contracts.Users;
 using Clean.Api.DataAccess.Models.Items;
@@ -22,7 +23,11 @@ namespace Clean.Api.Mapping
             CreateMap<ItemStock, ItemStockResponse>();
             CreateMap<AbnResult, AbnLookupResult>();
             CreateMap<ItemPrice, ItemPriceResponse>();
-            CreateMap<PriceList, PriceListResponse>();
+
+            // Automapper will automatically include all related data unless ExplicitExpansion is turned on
+            CreateMap<PriceList, PriceListResponse>().ForMember(x => x.Prices, options => options.ExplicitExpansion());
+            CreateMap<Brand, BrandResponse>();
+            CreateMap<ItemDiscountGroup, ItemDiscountGroupResponse>();
         }
 
     }

@@ -24,7 +24,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Clean.Api.Common\Clean.Api.Common.csproj" />
     <ProjectReference Include="..\..\src\Clean.Api.Contracts\Clean.Api.Contracts.csproj" />
-    <ProjectReference Include="..\..\src\Clean.Api.DataAccess.Models\Clean.Api.DataAccess.Models.csproj" />
     <ProjectReference Include="..\..\src\Clean.Api.DataAccess\Clean.Api.DataAccess.csproj" />
     <ProjectReference Include="..\..\src\Clean.Api.LogicProcessors\Clean.Api.LogicProcessors.csproj" />
     <ProjectReference Include="..\..\src\Clean.Api.Mapping\Clean.Api.Mapping.csproj" />

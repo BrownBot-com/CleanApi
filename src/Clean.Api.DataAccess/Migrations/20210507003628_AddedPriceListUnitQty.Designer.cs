@@ -4,14 +4,16 @@ using Clean.Api.Data.Access;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Clean.Api.DataAccess.Migrations
 {
     [DbContext(typeof(CleanDbContext))]
-    partial class CleanDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210507003628_AddedPriceListUnitQty")]
+    partial class AddedPriceListUnitQty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -151,60 +153,6 @@ namespace Clean.Api.DataAccess.Migrations
                     b.ToTable("Items");
                 });
 
-            modelBuilder.Entity("Clean.Api.DataAccess.Models.Items.ItemCategory", b =>
-                {
-                    b.Property<string>("Code")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasColumnName("ItemCatCode");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)")
-                        .HasColumnName("ItemCatDescription");
-
-                    b.Property<string>("Number")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasColumnName("ItemCatNumber");
-
-                    b.HasKey("Code");
-
-                    b.ToTable("ItemCategory");
-                });
-
-            modelBuilder.Entity("Clean.Api.DataAccess.Models.Items.ItemDiscountGroup", b =>
-                {
-                    b.Property<string>("Code")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasColumnName("ItemDiscGrpCode");
-
-                    b.Property<string>("Additional")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)")
-                        .HasColumnName("ItemDiscGrpAdditional");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)")
-                        .HasColumnName("ItemDiscGrpDescription");
-
-                    b.Property<string>("ItemCategory")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasColumnName("ItemDiscGrpItemCategory");
-
-                    b.Property<string>("SupplierRef")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasColumnName("ItemDiscGrpSupplierRef");
-
-                    b.HasKey("Code");
-
-                    b.ToTable("ItemDiscountGroup");
-                });
-
             modelBuilder.Entity("Clean.Api.DataAccess.Models.Items.ItemPrice", b =>
                 {
                     b.Property<int>("Id")
@@ -239,7 +187,7 @@ namespace Clean.Api.DataAccess.Migrations
                         .HasColumnType("int")
                         .HasColumnName("PriceListId");
 
-                    b.Property<string>("StockGroupCode")
+                    b.Property<string>("StockGroup")
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)")
                         .HasColumnName("ItemStockGroup");

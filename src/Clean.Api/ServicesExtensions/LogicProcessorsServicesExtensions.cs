@@ -16,7 +16,9 @@ namespace Clean.Api.ServicesExtensions
             services.AddScoped<IUsersProcessor, UsersProcessor>();
             services.AddScoped<IItemsProcessor, ItemsProcessor>();
             services.AddScoped<IItemStockProcessor, ItemStockProcessor>();
+            services.AddScoped<IItemDiscountGroupsProcessor, ItemDiscountGroupsProcessor>();
             services.AddScoped<IPriceListProcessor, PriceListProcessor>();
+            services.AddScoped<IBrandsProcessor, BrandsProcessor>();
         }
     }
 }

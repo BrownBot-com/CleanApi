@@ -20,11 +20,11 @@ namespace Clean.Api.DataAccess.EF
 
         public IQueryable<T> Query()
         {
-            return Query<T>();
+            return Query<T>().AsNoTracking();
         }
         public IQueryable<U> Query<U>() where U : class
         {
-            return _context.Set<U>();
+            return _context.Set<U>().AsNoTracking();
         }
 
         public void Add(T entity)

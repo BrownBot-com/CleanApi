@@ -13,8 +13,17 @@ namespace Clean.Api.DataAccess.Models.Items
         [StringLength(20, ErrorMessage = "The {0} value exceeds {1} characters")]
         public string Code { get; set; }
 
+        [Column("BrandPrefix")]
+        [StringLength(4, ErrorMessage = "The {0} value exceeds {1} characters")]
+        public string Prefix { get; set; }
+
         [Column("BrandName")]
         [StringLength(128, ErrorMessage = "The {0} value exceeds {1} characters")]
         public string Name { get; set; }
+
+        [Column("BrandDynamicsCode")]
+        [StringLength(20, ErrorMessage = "The {0} value exceeds {1} characters")]
+        public string DynamicsCode { get; set; }
+
     }
 }

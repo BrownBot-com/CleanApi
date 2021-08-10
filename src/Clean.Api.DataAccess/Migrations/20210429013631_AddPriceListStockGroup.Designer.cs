@@ -4,14 +4,16 @@ using Clean.Api.Data.Access;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Clean.Api.DataAccess.Migrations
 {
     [DbContext(typeof(CleanDbContext))]
-    partial class CleanDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210429013631_AddPriceListStockGroup")]
+    partial class AddPriceListStockGroup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,20 +50,10 @@ namespace Clean.Api.DataAccess.Migrations
                         .HasColumnType("nvarchar(20)")
                         .HasColumnName("BrandCode");
 
-                    b.Property<string>("DynamicsCode")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasColumnName("BrandDynamicsCode");
-
                     b.Property<string>("Name")
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)")
                         .HasColumnName("BrandName");
-
-                    b.Property<string>("Prefix")
-                        .HasMaxLength(4)
-                        .HasColumnType("nvarchar(4)")
-                        .HasColumnName("BrandPrefix");
 
                     b.HasKey("Code");
 
@@ -151,60 +143,6 @@ namespace Clean.Api.DataAccess.Migrations
                     b.ToTable("Items");
                 });
 
-            modelBuilder.Entity("Clean.Api.DataAccess.Models.Items.ItemCategory", b =>
-                {
-                    b.Property<string>("Code")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasColumnName("ItemCatCode");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)")
-                        .HasColumnName("ItemCatDescription");
-
-                    b.Property<string>("Number")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasColumnName("ItemCatNumber");
-
-                    b.HasKey("Code");
-
-                    b.ToTable("ItemCategory");
-                });
-
-            modelBuilder.Entity("Clean.Api.DataAccess.Models.Items.ItemDiscountGroup", b =>
-                {
-                    b.Property<string>("Code")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasColumnName("ItemDiscGrpCode");
-
-                    b.Property<string>("Additional")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)")
-                        .HasColumnName("ItemDiscGrpAdditional");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)")
-                        .HasColumnName("ItemDiscGrpDescription");
-
-                    b.Property<string>("ItemCategory")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasColumnName("ItemDiscGrpItemCategory");
-
-                    b.Property<string>("SupplierRef")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasColumnName("ItemDiscGrpSupplierRef");
-
-                    b.HasKey("Code");
-
-                    b.ToTable("ItemDiscountGroup");
-                });
-
             modelBuilder.Entity("Clean.Api.DataAccess.Models.Items.ItemPrice", b =>
                 {
                     b.Property<int>("Id")
@@ -216,11 +154,6 @@ namespace Clean.Api.DataAccess.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2")
                         .HasColumnName("ItemPriceDate");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .HasColumnName("ItemDescription");
 
                     b.Property<string>("ItemCode")
                         .HasMaxLength(50)
@@ -239,7 +172,7 @@ namespace Clean.Api.DataAccess.Migrations
                         .HasColumnType("int")
                         .HasColumnName("PriceListId");
 
-                    b.Property<string>("StockGroupCode")
+                    b.Property<string>("StockGroup")
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)")
                         .HasColumnName("ItemStockGroup");
@@ -251,10 +184,6 @@ namespace Clean.Api.DataAccess.Migrations
                     b.Property<double>("UnitPrice")
                         .HasColumnType("float")
                         .HasColumnName("ItemPriceUnitPrice");
-
-                    b.Property<int>("UnitQty")
-                        .HasColumnType("int")
-                        .HasColumnName("ItemPriceUnitQty");
 
                     b.HasKey("Id");
 
@@ -457,17 +386,21 @@ namespace Clean.Api.DataAccess.Migrations
 
             modelBuilder.Entity("Clean.Api.DataAccess.Models.Items.ItemPrice", b =>
                 {
-                    b.HasOne("Clean.Api.DataAccess.Models.Items.Item", null)
+                    b.HasOne("Clean.Api.DataAccess.Models.Items.Item", "Item")
                         .WithMany("Prices")
                         .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Clean.Api.DataAccess.Models.Items.PriceList", null)
+                    b.HasOne("Clean.Api.DataAccess.Models.Items.PriceList", "PriceList")
                         .WithMany("Prices")
                         .HasForeignKey("PriceListId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Item");
+
+                    b.Navigation("PriceList");
                 });
 
             modelBuilder.Entity("Clean.Api.DataAccess.Models.Items.ItemStock", b =>

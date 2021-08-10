@@ -24,7 +24,7 @@ namespace Clean.Api.LogicProcessors
         private IRepository<Item> _itemsRepository;
         private ISecurityContext _securityContext;
 
-        public IQueryable<PriceList> Query => _itemsRepository.Query<PriceList>();
+        public IQueryable<PriceList> Query => _itemsRepository.Query<PriceList>().AsNoTracking();
 
         public PriceList Get(int id)
         {
@@ -53,9 +53,12 @@ namespace Clean.Api.LogicProcessors
                 {
                     Date = request.Date,
                     ItemCode = price.ItemCode,
+                    Description = price.Description,
                     UnitCost = price.UnitCost,
                     UnitPrice = price.UnitPrice,
-                    PriceIncludesGST = price.PriceIncludesGST
+                    UnitQty = price.UnitQty,
+                    PriceIncludesGST = price.PriceIncludesGST,
+                    StockGroupCode = price.StockGroup
                 };
 
                 result.Prices.Add(itemPrice);
@@ -92,7 +95,7 @@ namespace Clean.Api.LogicProcessors
         {
             var results = new List<ItemPrice>();
 
-            var hitList = _itemsRepository.Query<ItemPrice>().Where(i => i.ItemId == 0).ToArray();
+            var hitList = _itemsRepository.Query<ItemPrice>().AsTracking().Where(i => i.ItemId == 0).ToArray();
             var itemsList = _itemsRepository.Query().AsNoTracking().ToDictionary(i => i.Code);
             
             foreach (var item in hitList)

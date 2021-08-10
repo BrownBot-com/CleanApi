@@ -19,11 +19,11 @@ namespace Clean.Api.Controllers
     {
         public PriceListController(IPriceListProcessor itemStockProcessor, IMapper mapper)
         {
-            _itemStockProcessor = itemStockProcessor;
+            _priceListkProcessor = itemStockProcessor;
             _mapper = mapper;
         }
 
-        private readonly IPriceListProcessor _itemStockProcessor;
+        private readonly IPriceListProcessor _priceListkProcessor;
         private readonly IMapper _mapper;
 
         // GET: api/<ItemsController>
@@ -31,7 +31,7 @@ namespace Clean.Api.Controllers
         [QueryableList]
         public IQueryable<PriceListResponse> Get()
         {
-            var rawResult = _itemStockProcessor.Query;
+            var rawResult = _priceListkProcessor.Query;
             var response = rawResult.ProjectTo<PriceListResponse>(_mapper.ConfigurationProvider);
             return response;
         }
@@ -40,7 +40,7 @@ namespace Clean.Api.Controllers
         [HttpGet("{id}")]
         public ActionResult<PriceListResponse> Get(int id)
         {
-            var rawResult = _itemStockProcessor.Get(id);
+            var rawResult = _priceListkProcessor.Get(id);
             var response = _mapper.Map<PriceListResponse>(rawResult);
             return response;
         }
@@ -49,7 +49,7 @@ namespace Clean.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<PriceListResponse>> PostStock([FromBody] CreatePriceListRequest request)
         {
-            var rawResult = await _itemStockProcessor.Create(request);
+            var rawResult = await _priceListkProcessor.Create(request);
             var response = _mapper.Map<PriceListResponse>(rawResult);
             return response;
         }
@@ -58,7 +58,7 @@ namespace Clean.Api.Controllers
         [HttpPost("Reprocess")]
         public async Task<ActionResult<ItemPriceResponse[]>> LinkPriceListItems()
         {
-            var rawResult = await _itemStockProcessor.LinkPriceListItems();
+            var rawResult = await _priceListkProcessor.LinkPriceListItems();
             var response = _mapper.Map<ItemPriceResponse[]>(rawResult);
             return response;
         }
@@ -67,7 +67,7 @@ namespace Clean.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            await _itemStockProcessor.Delete(id);
+            await _priceListkProcessor.Delete(id);
             return Ok();
         }
     }

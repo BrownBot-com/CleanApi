@@ -23,6 +23,8 @@ namespace Clean.Api.ServicesExtensions
 
             services.AddScoped<IRepository<User>>(x => new EFRepository<User>(x.GetRequiredService<CleanDbContext>()));
             services.AddScoped<IRepository<Item>>(x => new EFRepository<Item>(x.GetRequiredService<CleanDbContext>()));
+            services.AddScoped<IRepository<Brand>>(x => new EFRepository<Brand>(x.GetRequiredService<CleanDbContext>()));
+            services.AddScoped<IRepository<ItemDiscountGroup>>(x => new EFRepository<ItemDiscountGroup>(x.GetRequiredService<CleanDbContext>()));
         }
     }
 }

@@ -6,19 +6,20 @@ using System.Text;
 
 namespace Clean.Api.DataAccess.Models.Items
 {
-    public class Branch
+    [Table("ItemCategory")]
+    public class ItemCategory
     {
         [Key]
-        [Column("BranchCode")]
+        [Column("ItemCatCode")]
         [StringLength(20, ErrorMessage = "The {0} value exceeds {1} characters")]
         public string Code { get; set; }
 
-        [Column("BranchName")]
+        [Column("ItemCatDescription")]
         [StringLength(128, ErrorMessage = "The {0} value exceeds {1} characters")]
-        public string Name { get; set; }
+        public string Description { get; set; }
 
-        [Column("BranchNewCode")]
+        [Column("ItemCatNumber")]
         [StringLength(20, ErrorMessage = "The {0} value exceeds {1} characters")]
-        public string NewCode { get; set; }
+        public string Number { get; set; }
     }
 }

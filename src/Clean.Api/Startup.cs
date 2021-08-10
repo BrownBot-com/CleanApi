@@ -1,4 +1,5 @@
 using Clean.Api.Filters;
+using Clean.Api.Helpers.Converters;
 using Clean.Api.Mapping;
 using Clean.Api.ServicesExtensions;
 using Microsoft.AspNetCore.Builder;
@@ -36,11 +37,16 @@ namespace Clean.Api
             services.AddSecurityHelpers();
             services.AddLogicProcessors();
             services.AddServices(Configuration);
+            services.AddCors(options =>
+            {
+                options.AddPolicy("PolicyName", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            });
             services.AddControllers(options => { options.Filters.Add(new ApiExceptionFilter()); })
                 .AddJsonOptions(options =>
                 {
                     options.JsonSerializerOptions.PropertyNamingPolicy = null;
-                }); ;
+                    options.JsonSerializerOptions.Converters.Add(new TimespanToStringJsonConverter());
+                });
 
             services.AddSwaggerGen(c =>
             {
@@ -60,7 +66,7 @@ namespace Clean.Api
 
             app.UseHttpsRedirection();
             app.UseRouting();
-
+            app.UseCors("PolicyName");
             app.UseAuthentication();
             app.UseAuthorization();
 

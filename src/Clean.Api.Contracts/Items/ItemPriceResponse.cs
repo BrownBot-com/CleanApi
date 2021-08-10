@@ -12,9 +12,15 @@ namespace Clean.Api.Contracts.Items
 
         public string ItemCode { get; set; }
 
+        public string Description { get; set; }
+
+        public string StockGroup { get; set; }
+
         public double UnitPrice { get; set; }
 
         public double UnitCost { get; set; }
+
+        public int UnitQty { get; set; }
 
         public bool PriceIncludesGST { get; set; }
 

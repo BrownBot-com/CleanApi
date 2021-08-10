@@ -12,6 +12,6 @@ namespace Clean.Api.Contracts.Items
 
         public string BrandCode { get; set; }
 
-        public ItemPriceResponse[] Prices { get; set; }
+        public ItemPriceResponse[] Prices { get; set; } = new ItemPriceResponse[0];
     }
 }
